@@ -1,5 +1,9 @@
 package com.lzjlxebr.blog.service;
 
+import com.lzjlxebr.blog.base.BaseService;
+import com.lzjlxebr.blog.entity.Blog;
+import org.springframework.stereotype.Service;
+
 /**
  * BlogService
  * <p>
@@ -8,5 +12,5 @@ package com.lzjlxebr.blog.service;
  * @author : lzjlxebr
  * @date : 2019-08-26 15:28
  **/
-public interface BlogService {
+public interface BlogService extends BaseService<Blog> {
 }
