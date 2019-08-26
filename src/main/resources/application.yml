@@ -5,7 +5,7 @@ server:
     uri-encoding: UTF-8
   port: 8088
   servlet:
-    context-path: /
+    context-path: /dev
     session:
       timeout: 1800 # Session timeout. If a duration suffix is not specified, seconds will be used.
 

@@ -1,5 +1,6 @@
 package com.lzjlxebr.blog.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -16,5 +17,21 @@ import javax.persistence.Table;
 @Table(name = "blog")
 public class Blog {
     @Id
+    @Column(name = "id")
     private Long id;
+
+    public Blog() {
+    }
+
+    public Blog(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

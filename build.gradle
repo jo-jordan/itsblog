@@ -14,6 +14,11 @@ jar {
     }
 }
 
+bootJar {
+    archiveBaseName = 'itsblog-admin'
+    version =  'dev'
+}
+
 configurations {
     developmentOnly
     runtimeClasspath {
