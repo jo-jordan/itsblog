@@ -26,6 +26,15 @@ public class ResponseUtil {
         return entity;
     }
 
+    public static ResponseEntity success(Object data, Long count) {
+        ResponseEntity entity = new ResponseEntity();
+        entity.code = 1;
+        entity.msg = "成功";
+        entity.data = data;
+        entity.count = count;
+        return entity;
+    }
+
     public static ResponseEntity failed() {
         ResponseEntity entity = new ResponseEntity();
         entity.code = 0;

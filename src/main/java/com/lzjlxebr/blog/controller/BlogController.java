@@ -2,19 +2,18 @@ package com.lzjlxebr.blog.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.lzjlxebr.blog.base.ResponseEntity;
 import com.lzjlxebr.blog.entity.Blog;
 import com.lzjlxebr.blog.service.BlogService;
 import com.lzjlxebr.blog.util.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * BlogController
@@ -43,5 +42,38 @@ public class BlogController {
         blogService.insert(blog);
 
         return ResponseUtil.success();
+    }
+
+    @PostMapping("/deleteById")
+    public ResponseEntity deleteById(@RequestBody String requestBody) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.readTree(requestBody);
+
+        Long id = node.get("id").asLong();
+        blogService.deleteById(id);
+        return ResponseUtil.success();
+    }
+
+    @PostMapping("/deleteInBatch")
+    public ResponseEntity deleteInBatch(@RequestBody String requestBody) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.readTree(requestBody);
+
+        List<Blog> ids = new ArrayList<>(node.size());
+        node.iterator().forEachRemaining(item -> {
+            Long id = item.asLong();
+            ids.add(new Blog(id));
+        });
+
+        blogService.deleteInBatch(ids);
+        return ResponseUtil.success();
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity findAll(@RequestParam("page")Integer page, @RequestParam("size")Integer size) {
+        page = page - 1;
+        Page<Blog> blogPage = blogService.findAll(page, size);
+
+        return ResponseUtil.success(blogPage.getContent(), blogPage.getTotalElements());
     }
 }

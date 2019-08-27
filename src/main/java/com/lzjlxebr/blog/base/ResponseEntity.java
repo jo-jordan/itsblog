@@ -12,4 +12,5 @@ public class ResponseEntity {
     public Integer code;
     public String msg;
     public Object data;
+    public Long count;
 }
