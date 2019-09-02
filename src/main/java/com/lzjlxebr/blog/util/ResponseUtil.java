@@ -31,7 +31,7 @@ public class ResponseUtil {
         entity.code = 1;
         entity.msg = "成功";
         entity.data = data;
-        entity.count = count;
+        entity.total = count;
         return entity;
     }
 

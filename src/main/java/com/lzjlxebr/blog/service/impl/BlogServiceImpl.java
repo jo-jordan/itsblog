@@ -3,15 +3,13 @@ package com.lzjlxebr.blog.service.impl;
 import com.lzjlxebr.blog.dao.BlogDao;
 import com.lzjlxebr.blog.entity.Blog;
 import com.lzjlxebr.blog.service.BlogService;
+import com.lzjlxebr.blog.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.Collection;
-import java.util.Optional;
 
 /**
  * BlogServiceImpl
@@ -25,6 +23,7 @@ import java.util.Optional;
 public class BlogServiceImpl implements BlogService {
     @Autowired
     private BlogDao dao;
+
     @Override
     public void insert(Blog entity) {
         dao.saveAndFlush(entity);
@@ -51,10 +50,15 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Page<Blog> findAll(Integer page, Integer size) {
-        Sort sort = Sort.by("id").descending();
+    public Page<Blog> findAll(Integer page, Integer size, String keyword) {
+        Sort sort = Sort.by("createTime").descending();
         Pageable pageable = PageRequest.of(page, size, sort);
-        return dao.findAll(pageable);
+
+        if (StringUtil.isEmpty(keyword)) {
+            return dao.findAll(pageable);
+        }
+
+        return dao.findAllByKeyword("%" + keyword + "%", pageable);
     }
 
     @Override

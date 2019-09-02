@@ -54,9 +54,10 @@ public interface BaseService<T> {
      *
      * @param page 页码
      * @param size 一页数据条数
+     * @param keyword 搜索关键词
      * @return 分页信息对象
      */
-    Page<T> findAll(Integer page, Integer size);
+    Page<T> findAll(Integer page, Integer size, String keyword);
 
     /**
      * 根据数据唯一标识删除数据

@@ -1,9 +1,6 @@
 package com.lzjlxebr.blog.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Blog
@@ -17,8 +14,40 @@ import javax.persistence.Table;
 @Table(name = "blog")
 public class Blog {
     @Id
-    @Column(name = "id")
+    @Column
     private Long id;
+
+    @Column
+    private String title;
+
+    @Column
+    private Integer words;
+
+    @Column(name = "total_lines")
+    private Integer lines;
+
+    /**
+     * 状态
+     * deleted
+     * published
+     * draft
+     */
+    @Column(name = "blog_status")
+    private String status;
+
+    @Column
+    private String createTime;
+
+    @Column
+    private String updateTime;
+
+    @Lob
+    @Column
+    private byte[] blogSource;
+
+    @Lob
+    @Column
+    private byte[] blogHtml;
 
     public Blog() {
     }
@@ -33,5 +62,69 @@ public class Blog {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getWords() {
+        return words;
+    }
+
+    public void setWords(Integer words) {
+        this.words = words;
+    }
+
+    public Integer getLines() {
+        return lines;
+    }
+
+    public void setLines(Integer lines) {
+        this.lines = lines;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public byte[] getBlogSource() {
+        return blogSource;
+    }
+
+    public void setBlogSource(byte[] blogSource) {
+        this.blogSource = blogSource;
+    }
+
+    public byte[] getBlogHtml() {
+        return blogHtml;
+    }
+
+    public void setBlogHtml(byte[] blogHtml) {
+        this.blogHtml = blogHtml;
     }
 }
