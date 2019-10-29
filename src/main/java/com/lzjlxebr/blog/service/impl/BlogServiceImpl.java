@@ -75,4 +75,16 @@ public class BlogServiceImpl implements BlogService {
     public void deleteInBatch(Iterable<Blog> entities) {
         dao.deleteInBatch(entities);
     }
+
+    @Override
+    public Page<Blog> findAllByPublished(int page, int size, String keyword) {
+        Sort sort = Sort.by("createTime").descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        if (StringUtil.isEmpty(keyword)) {
+            return dao.findAllByStatus("published", pageable);
+        }
+
+        return dao.findAllByStatusAndKeyword("published", keyword, pageable);
+    }
 }

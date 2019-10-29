@@ -21,6 +21,9 @@ public class Blog {
     private String title;
 
     @Column
+    private String icon;
+
+    @Column
     private Integer words;
 
     @Column(name = "total_lines")
@@ -41,13 +44,27 @@ public class Blog {
     @Column
     private String updateTime;
 
-    @Lob
     @Column
-    private byte[] blogSource;
+    private String keywords;
 
-    @Lob
     @Column
-    private byte[] blogHtml;
+    private String category;
+
+    @Column
+    private Integer readCount;
+
+    @Column
+    private Integer likeCount;
+
+    @Column
+    private String readDuration;
+
+    @Column
+    private String description;
+
+    @Column
+    private Long blogSourceId;
+
 
     public Blog() {
     }
@@ -112,19 +129,67 @@ public class Blog {
         this.updateTime = updateTime;
     }
 
-    public byte[] getBlogSource() {
-        return blogSource;
+    public Long getBlogSourceId() {
+        return blogSourceId;
     }
 
-    public void setBlogSource(byte[] blogSource) {
-        this.blogSource = blogSource;
+    public void setBlogSourceId(Long blogSourceId) {
+        this.blogSourceId = blogSourceId;
     }
 
-    public byte[] getBlogHtml() {
-        return blogHtml;
+    public String getKeywords() {
+        return keywords;
     }
 
-    public void setBlogHtml(byte[] blogHtml) {
-        this.blogHtml = blogHtml;
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Integer getReadCount() {
+        return readCount;
+    }
+
+    public void setReadCount(Integer readCount) {
+        this.readCount = readCount;
+    }
+
+    public String getReadDuration() {
+        return readDuration;
+    }
+
+    public void setReadDuration(String readDuration) {
+        this.readDuration = readDuration;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
     }
 }

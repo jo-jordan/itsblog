@@ -1,5 +1,3 @@
-
-#--------------------------Server--------------------------
 server:
   tomcat:
     uri-encoding: UTF-8
@@ -7,19 +5,9 @@ server:
   servlet:
     context-path: /dev
     session:
-      timeout: 1800 # Session timeout. If a duration suffix is not specified, seconds will be used.
-
-#  ssl:
-#    key-store: classpath:SHA256withRSA_wx.ccepc.com.pfx
-#    key-store-type: JKS
-#    key-store-password: 1234
-#mybatis:
-#  mapper-locations: classpath:mapper/*.xml
-#  config-location: classpath:mybatis-config.xml
-#  type-aliases-package: com.btten.dao
+      timeout: 1800
 
 spring:
-  #--------------------------charset--------------------------
   http:
     encoding:
       charset: UTF-8
@@ -76,7 +64,7 @@ spring:
     show-sql: false
     generate-ddl: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
 
     properties:
       hibernate:

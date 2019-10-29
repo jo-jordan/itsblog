@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lzjlxebr.blog.base.ResponseEntity;
 import com.lzjlxebr.blog.entity.Blog;
+import com.lzjlxebr.blog.entity.BlogSource;
 import com.lzjlxebr.blog.service.BlogService;
+import com.lzjlxebr.blog.service.BlogSourceService;
 import com.lzjlxebr.blog.util.DataTimeUtil;
 import com.lzjlxebr.blog.util.IdUtil;
 import com.lzjlxebr.blog.util.ResponseUtil;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,9 @@ public class BlogController {
     @Autowired
     private BlogService blogService;
 
+    @Autowired
+    private BlogSourceService blogSourceService;
+
     @PostMapping("/insert")
     public ResponseEntity insert(HttpServletRequest request, @RequestBody String requestBody) throws IOException {
 
@@ -42,7 +47,7 @@ public class BlogController {
         Blog blog = new Blog();
         Long id = IdUtil.gen();
         String title = node.get("title").asText("Untitled");
-        String blogSource = node.get("blogSource").asText();
+        String blogSourceString = node.get("blogSource").asText();
         String blogHtml = node.get("blogHtml").asText();
         Integer lines = node.get("lines").asInt();
         Integer words = node.get("words").asInt();
@@ -50,8 +55,12 @@ public class BlogController {
 
         blog.setId(id);
         blog.setTitle(title);
-        blog.setBlogHtml(blogHtml.getBytes(Charset.forName("utf-8")));
-        blog.setBlogSource(blogSource.getBytes(Charset.forName("utf-8")));
+        BlogSource blogSource = new BlogSource();
+        blogSource.setId(IdUtil.gen());
+        blogSource.setBlogHtml(blogHtml.getBytes(StandardCharsets.UTF_8));
+        blogSource.setBlogSource(blogSourceString.getBytes(StandardCharsets.UTF_8));
+        blogSourceService.insert(blogSource);
+        blog.setBlogSourceId(blogSource.getId());
         blog.setLines(lines);
         blog.setWords(words);
         blog.setCreateTime(DataTimeUtil.getCurrentDateTimeInString());
@@ -89,7 +98,7 @@ public class BlogController {
             return ResponseUtil.failed("Blog was gone.");
         }
         String title = node.get("title").asText("Untitled");
-        String blogSource = node.get("blogSource").asText();
+        String blogSourceString = node.get("blogSource").asText();
         String blogHtml = node.get("blogHtml").asText();
         Integer lines = node.get("lines").asInt();
         Integer words = node.get("words").asInt();
@@ -97,8 +106,10 @@ public class BlogController {
 
         blog.setId(id);
         blog.setTitle(title);
-        blog.setBlogHtml(blogHtml.getBytes(Charset.forName("utf-8")));
-        blog.setBlogSource(blogSource.getBytes(Charset.forName("utf-8")));
+        BlogSource blogSource = blogSourceService.findById(blog.getBlogSourceId());
+        blogSource.setBlogHtml(blogHtml.getBytes(StandardCharsets.UTF_8));
+        blogSource.setBlogSource(blogSourceString.getBytes(StandardCharsets.UTF_8));
+        blogSourceService.update(blogSource);
         blog.setLines(lines);
         blog.setWords(words);
         blog.setUpdateTime(DataTimeUtil.getCurrentDateTimeInString());
@@ -149,5 +160,10 @@ public class BlogController {
         Page<Blog> blogPage = blogService.findAll(page, size, keyword);
 
         return ResponseUtil.success(blogPage.getContent(), blogPage.getTotalElements());
+    }
+
+    @GetMapping("/find-by-id")
+    public ResponseEntity findById(@RequestParam("id") Long id) {
+        return ResponseUtil.success(blogSourceService.findById(id));
     }
 }
