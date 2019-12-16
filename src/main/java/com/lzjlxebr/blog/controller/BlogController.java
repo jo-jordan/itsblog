@@ -45,7 +45,7 @@ public class BlogController {
         JsonNode node = mapper.readTree(requestBody);
 
         Blog blog = new Blog();
-        Long id = IdUtil.gen();
+        Long id = IdUtil.nextId();
         String title = node.get("title").asText("Untitled");
         String blogSourceString = node.get("blogSource").asText();
         String blogHtml = node.get("blogHtml").asText();
@@ -56,15 +56,18 @@ public class BlogController {
         blog.setId(id);
         blog.setTitle(title);
         BlogSource blogSource = new BlogSource();
-        blogSource.setId(IdUtil.gen());
+        blogSource.setId(IdUtil.nextId());
         blogSource.setBlogHtml(blogHtml.getBytes(StandardCharsets.UTF_8));
         blogSource.setBlogSource(blogSourceString.getBytes(StandardCharsets.UTF_8));
         blogSourceService.insert(blogSource);
         blog.setBlogSourceId(blogSource.getId());
         blog.setLines(lines);
         blog.setWords(words);
-        blog.setCreateTime(DataTimeUtil.getCurrentDateTimeInString());
+        blog.setCreateTime(DataTimeUtil.getCurrentDateTime());
         blog.setStatus(status);
+        blog.setLikeCount(0);
+        blog.setReadCount(0);
+        blog.setReadDuration(words / 300 + "");
 
         blogService.insert(blog);
 
@@ -83,6 +86,22 @@ public class BlogController {
         }
 
         blog.setStatus("published");
+        blogService.update(blog);
+        return ResponseUtil.success();
+    }
+
+    @PostMapping("/archive")
+    public ResponseEntity archiveBlog(@RequestBody String requestBody) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.readTree(requestBody);
+
+        Long id = node.get("id").asLong();
+        Blog blog = blogService.findById(id);
+        if(blog == null) {
+            return ResponseUtil.failed("Blog was gone.");
+        }
+
+        blog.setStatus("archived");
         blogService.update(blog);
         return ResponseUtil.success();
     }
@@ -112,8 +131,36 @@ public class BlogController {
         blogSourceService.update(blogSource);
         blog.setLines(lines);
         blog.setWords(words);
-        blog.setUpdateTime(DataTimeUtil.getCurrentDateTimeInString());
+        blog.setUpdateTime(DataTimeUtil.getCurrentDateTime());
         blog.setStatus(status);
+
+        blogService.update(blog);
+
+        return ResponseUtil.success();
+    }
+
+    @PostMapping("/info-update")
+    public ResponseEntity infoUpdate(HttpServletRequest request, @RequestBody String requestBody) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.readTree(requestBody);
+
+        Long id = node.get("id").asLong();
+        Blog blog = blogService.findById(id);
+        if(blog == null) {
+            return ResponseUtil.failed("Blog was gone.");
+        }
+        String title = node.get("title").asText("Untitled");
+        String tags = node.get("tags").asText("NULL");
+        String icon = node.get("icon").asText("NULL");
+        String category = node.get("category").asText("NULL");
+
+        blog.setId(id);
+        blog.setTitle(title);
+
+        blog.setUpdateTime(DataTimeUtil.getCurrentDateTime());
+        blog.setTitle(title);
+        blog.setCategory(category);
+        blog.setIcon(icon);
 
         blogService.update(blog);
 

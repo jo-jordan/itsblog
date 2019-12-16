@@ -1,9 +1,9 @@
 package com.lzjlxebr.blog.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Statistics
@@ -20,11 +20,21 @@ public class Visitor {
     @Column
     private Long id;
 
-    @Column
-    private String address;
+    @Column(length = 23)
+    private String localAddr;
+
+    @Column(length = 23)
+    private String remoteAddr;
 
     @Column
-    private String lastTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date visitTime;
+
+    @Column
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date visitDate;
 
     public Long getId() {
         return id;
@@ -34,19 +44,35 @@ public class Visitor {
         this.id = id;
     }
 
-    public String getAddress() {
-        return address;
+    public String getLocalAddr() {
+        return localAddr;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setLocalAddr(String localAddr) {
+        this.localAddr = localAddr;
     }
 
-    public String getLastTime() {
-        return lastTime;
+    public String getRemoteAddr() {
+        return remoteAddr;
     }
 
-    public void setLastTime(String lastTime) {
-        this.lastTime = lastTime;
+    public void setRemoteAddr(String remoteAddr) {
+        this.remoteAddr = remoteAddr;
+    }
+
+    public Date getVisitTime() {
+        return visitTime;
+    }
+
+    public void setVisitTime(Date visitTime) {
+        this.visitTime = visitTime;
+    }
+
+    public Date getVisitDate() {
+        return visitDate;
+    }
+
+    public void setVisitDate(Date visitDate) {
+        this.visitDate = visitDate;
     }
 }

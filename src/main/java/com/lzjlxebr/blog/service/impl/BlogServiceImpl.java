@@ -77,14 +77,29 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Page<Blog> findAllByPublished(int page, int size, String keyword) {
+    public Page<Blog> findAllByPublished(int page, int size, String keyword, Integer isArchived) {
         Sort sort = Sort.by("createTime").descending();
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        if (StringUtil.isEmpty(keyword)) {
-            return dao.findAllByStatus("published", pageable);
+        String status = "published";
+        if (isArchived == 1) {
+            status = "archived";
         }
 
-        return dao.findAllByStatusAndKeyword("published", keyword, pageable);
+        if (StringUtil.isEmpty(keyword)) {
+            return dao.findAllByStatus(status, pageable);
+        }
+
+        return dao.findAllByStatusAndKeyword(status, keyword, pageable);
+    }
+
+    @Override
+    public Blog findByBlogSourceId(Long id) {
+        return dao.findByBlogSourceId(id);
+    }
+
+    @Override
+    public void save(Blog blog) {
+        dao.saveAndFlush(blog);
     }
 }

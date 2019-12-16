@@ -3,6 +3,7 @@ package com.lzjlxebr.blog.util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -23,6 +24,11 @@ public class DataTimeUtil {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         return dateFormat.format(calendar.getTime());
+    }
+
+    public static Date getCurrentDateTime() {
+        Calendar calendar = Calendar.getInstance(Locale.CHINA);
+        return calendar.getTime();
     }
 
 

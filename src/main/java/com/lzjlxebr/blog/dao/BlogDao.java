@@ -23,4 +23,6 @@ public interface BlogDao extends JpaRepository<Blog, Long> {
 
     @Query("select a from Blog a where a.status = :status and lower(a.title) like lower(:keyword)")
     Page<Blog> findAllByStatusAndKeyword(@Param("status") String status, @Param("keyword") String keyword, Pageable pageable);
+
+    Blog findByBlogSourceId(Long id);
 }

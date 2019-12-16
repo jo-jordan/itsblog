@@ -1,6 +1,9 @@
 package com.lzjlxebr.blog.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Blog
@@ -34,15 +37,19 @@ public class Blog {
      * deleted
      * published
      * draft
+     * archived
      */
     @Column(name = "blog_status")
     private String status;
 
     @Column
-    private String createTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
 
-    @Column
-    private String updateTime;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date updateTime;
 
     @Column
     private String keywords;
@@ -50,13 +57,13 @@ public class Blog {
     @Column
     private String category;
 
-    @Column
+    @Column(columnDefinition = "DEFAULT 0")
     private Integer readCount;
 
-    @Column
+    @Column(columnDefinition = "DEFAULT 0")
     private Integer likeCount;
 
-    @Column
+    @Column(columnDefinition = "DEFAULT 0")
     private String readDuration;
 
     @Column
@@ -113,19 +120,19 @@ public class Blog {
         this.status = status;
     }
 
-    public String getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(String createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public String getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
