@@ -31,6 +31,19 @@ public class DataTimeUtil {
         return calendar.getTime();
     }
 
+    public static Date setDate(Date date, int which, int count) {
+        Calendar calendar = Calendar.getInstance(Locale.CHINA);
+        calendar.setTime(date);
+        calendar.set(which, count);
+        return calendar.getTime();
+    }
+
+    public static Date setDate(int which, int count) {
+        Calendar calendar = Calendar.getInstance(Locale.CHINA);
+        calendar.set(which, count);
+        return calendar.getTime();
+    }
+
 
     /**
      * 获取当前日期时间以字符串形式
@@ -61,5 +74,32 @@ public class DataTimeUtil {
             e.printStackTrace();
             return -2;
         }
+    }
+
+    public static String convertDateToString(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(date);
+    }
+
+    public static String convertDateTimeToString(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return dateFormat.format(date);
+    }
+
+    public static String convertTimeToString(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+        return dateFormat.format(date);
+    }
+
+    public static java.sql.Timestamp convertUtilDateToSQLTimestamp(Date date) {
+        return new java.sql.Timestamp(date.getTime());
+    }
+
+    public static java.sql.Time convertUtilDateToSQLTime(Date date) {
+        return new java.sql.Time(date.getTime());
+    }
+
+    public static java.sql.Date convertUtilDateToSQLDate(Date date) {
+        return new java.sql.Date(date.getTime());
     }
 }

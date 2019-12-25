@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,6 +54,7 @@ public class BlogController {
         Integer words = node.get("words").asInt();
         String status = "draft";
 
+        Date date = DataTimeUtil.getCurrentDateTime();
         blog.setId(id);
         blog.setTitle(title);
         BlogSource blogSource = new BlogSource();
@@ -63,15 +65,16 @@ public class BlogController {
         blog.setBlogSourceId(blogSource.getId());
         blog.setLines(lines);
         blog.setWords(words);
-        blog.setCreateTime(DataTimeUtil.getCurrentDateTime());
+        blog.setCreateTime(date);
         blog.setStatus(status);
         blog.setLikeCount(0);
         blog.setReadCount(0);
+        blog.setCreateDate(date);
         blog.setReadDuration(words / 300 + "");
 
         blogService.insert(blog);
 
-        return ResponseUtil.success();
+        return ResponseUtil.success(blog.getId());
     }
 
     @PostMapping("/publish")
@@ -133,6 +136,7 @@ public class BlogController {
         blog.setWords(words);
         blog.setUpdateTime(DataTimeUtil.getCurrentDateTime());
         blog.setStatus(status);
+        blog.setReadDuration(words / 300 + "");
 
         blogService.update(blog);
 
@@ -159,6 +163,7 @@ public class BlogController {
 
         blog.setUpdateTime(DataTimeUtil.getCurrentDateTime());
         blog.setTitle(title);
+        blog.setTags(tags);
         blog.setCategory(category);
         blog.setIcon(icon);
 
@@ -179,6 +184,16 @@ public class BlogController {
         }
         blog.setStatus("deleted");
         blogService.update(blog);
+        return ResponseUtil.success();
+    }
+
+    @PostMapping("/destroy")
+    public ResponseEntity destroyById(@RequestBody String requestBody) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = mapper.readTree(requestBody);
+
+        Long id = node.get("id").asLong();
+        blogService.deleteById(id);
         return ResponseUtil.success();
     }
 

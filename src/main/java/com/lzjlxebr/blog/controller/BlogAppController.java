@@ -24,6 +24,12 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/app/blog")
 public class BlogAppController extends BaseController {
 
+    @GetMapping(value = "/dashboard")
+    public ResponseEntity dashboard() {
+        Page<Blog> blogs = blogService.findAllByDashboard();
+        return ResponseUtil.success(blogs.getContent());
+    }
+
     @GetMapping(value = "/list")
     public ResponseEntity list(
             @RequestParam(value = "next") Integer next,
@@ -37,6 +43,9 @@ public class BlogAppController extends BaseController {
     public ResponseEntity findById(HttpServletRequest request, @RequestParam("id") Long id) {
         visitorService.save(request);
         Blog blog = blogService.findByBlogSourceId(id);
+        if (blog == null) {
+            return ResponseUtil.failed();
+        }
         Integer readCount = blog.getReadCount();
         if (readCount == null) {
             readCount = 0;

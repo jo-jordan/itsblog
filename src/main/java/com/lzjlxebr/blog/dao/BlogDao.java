@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.sql.Date;
+import java.util.List;
+
 /**
  * BlogDao
  * <p>
@@ -25,4 +28,14 @@ public interface BlogDao extends JpaRepository<Blog, Long> {
     Page<Blog> findAllByStatusAndKeyword(@Param("status") String status, @Param("keyword") String keyword, Pageable pageable);
 
     Blog findByBlogSourceId(Long id);
+
+    @Query("SELECT a.createDate, count(a.createDate) FROM Blog a " +
+            "where a.createDate > ?1 " +
+            "group by a.createDate")
+    List<Object> getBlogStatistics(Date sqlDate);
+
+    @Query("SELECT a.title, a.readCount FROM Blog a " +
+            "where a.createDate > ?1 " +
+            "and a.status='published' ")
+    List<Object> getBlogReadStatistics(Date sqlDate);
 }

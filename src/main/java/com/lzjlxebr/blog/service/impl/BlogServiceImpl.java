@@ -102,4 +102,11 @@ public class BlogServiceImpl implements BlogService {
     public void save(Blog blog) {
         dao.saveAndFlush(blog);
     }
+
+    @Override
+    public Page<Blog> findAllByDashboard() {
+        Sort sort = Sort.by("likeCount").descending();
+        Pageable pageable = PageRequest.of(0, 3, sort);
+        return dao.findAll(pageable);
+    }
 }

@@ -18,4 +18,6 @@ public interface BlogService extends BaseService<Blog> {
     Blog findByBlogSourceId(Long id);
 
     void save(Blog blog);
+
+    Page<Blog> findAllByDashboard();
 }

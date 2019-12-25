@@ -1,7 +1,7 @@
 server:
   tomcat:
     uri-encoding: UTF-8
-  port: 8088
+  port: 9000
   servlet:
     context-path: /dev
     session:
@@ -45,11 +45,26 @@ spring:
         max-wait: 1
         min-idle: 5
   #测试环境mysql
+#  datasource:
+#    url: jdbc:mysql://127.0.0.1:3306/itsblog?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&useSSL=false&serverTimezone=Asia/Shanghai
+#    driverClassName: com.mysql.cj.jdbc.Driver
+#    username: devjava
+#    password: ccepcadmin
+#    platform: mysql
+#    hikari:
+#      maxLifetime: 60000 #一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒以上
+#      maximumPoolSize: 18 #连接池中允许的最大连接数。缺省值：10；推荐的公式：((core_count * 2) + effective_spindle_count)
+#      idle-timeout: 5000
+#      initialization-fail-timeout: 3000
+#      minimum-idle: 1
+#      connection-timeout: 10000
+#    type: com.zaxxer.hikari.HikariDataSource
+
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/itsblog?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&useSSL=false&serverTimezone=GMT
+    url: jdbc:mysql://118.126.116.83/itsblog?useUnicode=true&characterEncoding=utf8&autoReconnect=true&failOverReadOnly=false&useSSL=false&serverTimezone=Asia/Shanghai
     driverClassName: com.mysql.cj.jdbc.Driver
-    username: devjava
-    password: ccepcadmin
+    username: root
+    password: M!ch@e1J@ck50n
     platform: mysql
     hikari:
       maxLifetime: 60000 #一个连接的生命时长（毫秒），超时而且没被使用则被释放（retired），缺省:30分钟，建议设置比数据库超时时长少30秒以上

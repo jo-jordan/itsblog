@@ -47,6 +47,11 @@ public class Blog {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
 
+    @Column
+    @Temporal(TemporalType.DATE)
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date createDate;
+
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateTime;
@@ -56,6 +61,9 @@ public class Blog {
 
     @Column
     private String category;
+
+    @Column
+    private String tags;
 
     @Column(columnDefinition = "DEFAULT 0")
     private Integer readCount;
@@ -74,6 +82,14 @@ public class Blog {
 
 
     public Blog() {
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public Blog(Long id) {
@@ -198,5 +214,13 @@ public class Blog {
 
     public void setLikeCount(Integer likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 }
